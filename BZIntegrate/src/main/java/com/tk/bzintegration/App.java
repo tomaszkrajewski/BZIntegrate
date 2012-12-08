@@ -98,9 +98,9 @@ public class App implements Authenticator{
 		//App ba = new App();
 		
 		BugzillaConnector conn = new BugzillaConnector();
-		conn.connectTo("https://shawnee.pentesters.pl/bugzilla");
+		conn.connectTo("https://xxx.xxx.pl/bugzilla");
 		
-		LogIn logIn = new LogIn("tomasz.krajewski@pentesters.pl", "soh2iNg6seisoi");
+		LogIn logIn = new LogIn("tomasz.krajewski@pentesters.pl", "dupajeza");
 		conn.executeMethod(logIn);
 		
 		BugSearch findBugs = new BugSearch(SearchLimiter.OWNER, "tomasz.krajewski@pentesters.pl");
