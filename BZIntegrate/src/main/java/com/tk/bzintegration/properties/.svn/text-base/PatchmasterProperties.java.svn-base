@@ -1,0 +1,145 @@
+/**
+ * 
+ */
+package com.comarch.properties;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+
+import com.comarch.data.patch.PatchConsts;
+
+/**
+ * Util class used to store patchmaster's properties. Loads default application
+ * properties values in constructor, but allows to set other values using its
+ * API.
+ * 
+ * @author michal.wojciechowski
+ */
+public class PatchmasterProperties {
+
+	private static final String DEFAULT_MAIN_FOLDER = "C:\\test";
+	private static final String DEFAULT_CVS_LOGIN = "wojciechowskim";
+	private static final String DEFAULT_CVS_SERVER = "cvs_wojciechowskim";
+	private static final String DEFAULT_CVS_TARGET_PATH = "cvs_tmp";
+	private static final String DEFAULT_CVS_RSH_PATH = "C:\\Program Files\\TortoiseCVS\\TortoisePlink.exe";
+	private static final String DEFAULT_TEMP_PATH = "patches\\";
+	private static final String DEFAULT_CONSTS_SOURCE = "/patch/consts/";
+	private static final String DEFAULT_CONSTS_DESTINATION = "consts";
+	private static final String DEFAULT_SCRIPTS_DESTINATION = "scripts";
+	private static final String DEFAULT_PATCHMASTER_1_DATA = "-->Bartosz Rajewski tel. 6333, Rafal Matuszewski tel. 6461";
+	private static final String DEFAULT_REPOSITORY_STORAGE = "storage";
+	private static final String DEFAULT_ARCHIVER = "zip";
+	private static final String DEFAULT_ARCHIVER_PARAMS = "-r";
+	private static final String DEFAULT_ARCHIVER_EXTENSION = ".zip";
+	private static final String DEFAULT_BZ_RPC_ADDRESS = "https://mds.comarch.pl/xmlrpc.cgi";
+	private static final String DEFAULT_AUTHENTICATOR_CLASS = "com.comarch.user.BugzillaAuthenticator";
+	private static final String DEFAULT_AUTHENTICATION_ON="true";
+	private static final String DEFAULT_ADM_SCHEMA = "ADM_SUB";
+	private static final String DEFAULT_PATCH_LOG_PATH = "logs";
+	private static final String DEFAULT_RELEASE_NUMBER = "0";
+
+	/**
+	 * Instance of the class. Singleton.
+	 */
+	private static PatchmasterProperties instance;
+	/**
+	 * Properties map
+	 */
+	private static HashMap<PropertyKey, String> map = new HashMap<PropertyKey, String>();
+
+	private Logger logger = Logger.getLogger(getClass().getName());
+
+	/**
+	 * Private constructor - singleton.
+	 */
+	private PatchmasterProperties() {
+		map.put(PropertyKey.MAIN_FOLDER, DEFAULT_MAIN_FOLDER);
+		map.put(PropertyKey.CVS_LOGIN, DEFAULT_CVS_LOGIN);
+		map.put(PropertyKey.CVS_SERVER, DEFAULT_CVS_SERVER);
+		map.put(PropertyKey.CVS_TARGET_PATH, DEFAULT_CVS_TARGET_PATH);
+		map.put(PropertyKey.CVS_RSH_PATH, DEFAULT_CVS_RSH_PATH);
+		map.put(PropertyKey.TEMP_PATH, DEFAULT_TEMP_PATH);
+		map.put(PropertyKey.CONSTS_SOURCE, DEFAULT_CONSTS_SOURCE);
+		map.put(PropertyKey.CONSTS_DESTINATION, DEFAULT_CONSTS_DESTINATION);
+		map.put(PropertyKey.SCRIPTS_DESTINATION, DEFAULT_SCRIPTS_DESTINATION);
+		map.put(PropertyKey.PATCHMASTER_1_DATA, DEFAULT_PATCHMASTER_1_DATA);
+		map.put(PropertyKey.INSTALL_SCRIPT_ENV, PatchConsts.INSTALL_SCRIPT_ENV_LINUX);
+		map.put(PropertyKey.REPOSITORY_STORAGE, DEFAULT_REPOSITORY_STORAGE);
+		map.put(PropertyKey.ARCHIVER, DEFAULT_ARCHIVER);
+		map.put(PropertyKey.ARCHIVER_PARAMS, DEFAULT_ARCHIVER_PARAMS);
+		map.put(PropertyKey.ARCHIVER_EXTENSION, DEFAULT_ARCHIVER_EXTENSION);
+		map.put(PropertyKey.BZ_RPC_ADDRESS, DEFAULT_BZ_RPC_ADDRESS);
+		map.put(PropertyKey.AUTHENTICATOR_CLASS, DEFAULT_AUTHENTICATOR_CLASS);
+		map.put(PropertyKey.AUTHENTICATION_ON, DEFAULT_AUTHENTICATION_ON);
+		map.put(PropertyKey.ADM_SCHEMA, DEFAULT_ADM_SCHEMA);
+		map.put(PropertyKey.PATCH_LOG_PATH, DEFAULT_PATCH_LOG_PATH);
+		map.put(PropertyKey.RELEASE_NUMBER, DEFAULT_RELEASE_NUMBER);
+	}
+
+	/**
+	 * Returns instance of this class.
+	 * 
+	 * @return instance of PatchmasterProperties
+	 */
+	public static PatchmasterProperties getInstance() {
+		if (instance == null) {
+			instance = new PatchmasterProperties();
+		}
+		return instance;
+	}
+
+	/**
+	 * Sets properties loaded from file.
+	 * 
+	 * @param properties
+	 *            properties to be set in map
+	 */
+	public void setProperties(Properties properties) {
+		Set<Object> keys = properties.keySet();
+		PropertyKey[] propertyKeys = PropertyKey.values();
+		for (int i = 0; i < propertyKeys.length; i++) {
+			String propertyKey = propertyKeys[i].toString();
+			boolean found = false;
+			for (Object object : keys) {
+				String key = (String) object;
+				if (key.equals(propertyKey)) {
+					map.put(propertyKeys[i], properties.getProperty(key));
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				logger.warn("Property:" + propertyKey
+						+ " not found in properties file.");
+			}
+		}
+		logger.info("Properties updated.");
+	}
+
+	/**
+	 * Returns property value for given key
+	 * 
+	 * @param key
+	 *            {@link PropertyKey} enumeration key value
+	 * @return String property value
+	 */
+	public String getProperty(PropertyKey key) {
+		return map.get(key);
+	}
+	
+	/**
+	 * Returns property value for given key with main folder prefix
+	 * 
+	 * @param key
+	 *            {@link PropertyKey} enumeration key value
+	 * @return String property value
+	 */
+	public String getPropertyWithMainFolderPrefix(PropertyKey key) {
+		String path = getProperty(PropertyKey.MAIN_FOLDER);
+		return path + File.separator + getProperty(key);
+	}
+}

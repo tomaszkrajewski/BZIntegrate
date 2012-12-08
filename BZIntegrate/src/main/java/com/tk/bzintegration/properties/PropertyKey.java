@@ -1,0 +1,17 @@
+/**
+ * 
+ */
+package com.tk.bzintegration.properties;
+
+/**
+ * Enumeration for properties keys used in application and properties files
+ * 
+ * @author michal.wojciechowski
+ */
+public enum PropertyKey {
+	CVS_LOGIN, CVS_SERVER, CVS_TARGET_PATH, CVS_RSH_PATH, TEMP_PATH, CONSTS_SOURCE, 
+	CONSTS_DESTINATION, SCRIPTS_DESTINATION, PATCH_BODY_DESTINATION, PATCHMASTER_1_DATA,
+	INSTALL_SCRIPT_ENV, REPOSITORY_STORAGE, ARCHIVER, ARCHIVER_PARAMS, ARCHIVER_EXTENSION, 
+	BZ_RPC_ADDRESS, AUTHENTICATOR_CLASS, AUTHENTICATION_ON,
+	ADM_SCHEMA, PATCH_LOG_PATH, MAIN_FOLDER, RELEASE_NUMBER
+}
