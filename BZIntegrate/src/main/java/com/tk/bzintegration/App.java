@@ -115,7 +115,7 @@ public class App implements Authenticator{
 		CommentBug cb = new CommentBug(1, "test");
 		conn.executeMethod(cb);
 	
-		System.out.println("DUPA1");
+		System.out.println("DUPA112");
 	}
 	
 }
