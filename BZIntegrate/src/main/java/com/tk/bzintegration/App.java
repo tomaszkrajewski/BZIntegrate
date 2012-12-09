@@ -100,7 +100,7 @@ public class App implements Authenticator{
 		BugzillaConnector conn = new BugzillaConnector();
 		conn.connectTo("https://xxx.xxx.pl/bugzilla");
 		
-		LogIn logIn = new LogIn("tomasz.krajewski@pentesters.pl", "dupajeza");
+		LogIn logIn = new LogIn("tomasz.krajewski@xxx.pl", "dupajeza");
 		conn.executeMethod(logIn);
 		
 		BugSearch findBugs = new BugSearch(SearchLimiter.OWNER, "tomasz.krajewski@pentesters.pl");
