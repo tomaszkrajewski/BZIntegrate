@@ -103,7 +103,7 @@ public class App implements Authenticator{
 		LogIn logIn = new LogIn("tomasz.krajewski@xxx.pl", "dupajeza");
 		conn.executeMethod(logIn);
 		
-		BugSearch findBugs = new BugSearch(SearchLimiter.OWNER, "tomasz.krajewski@xxx1122wer.pl");
+		BugSearch findBugs = new BugSearch(SearchLimiter.OWNER, "tomasz.krajewski@xxx11223wer.pl");
 		conn.executeMethod(findBugs);
 		List<Bug> results = findBugs.getSearchResults();
 		
